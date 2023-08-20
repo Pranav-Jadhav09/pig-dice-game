@@ -13,7 +13,7 @@
 Built a Pig Dice game using JavaScript.
 Play the classic Pig Dice Game online! Roll the dice, accumulate points, and avoid the Pig Out. Challenge friends or the computer in this addictive web game built with HTML, CSS, and JavaScript. Enjoy smooth animations, strategic gameplay, and aim for the highest score. Experience the excitement now!
 
-<a href="https://rockpaperscissor-jrpranav.netlify.app/"><strong>➥ Play Now</strong></a>
+<a href="https://pig-dice-game-jrpranav.netlify.app/"><strong>➥ Play Now</strong></a>
 
 </div>
 
