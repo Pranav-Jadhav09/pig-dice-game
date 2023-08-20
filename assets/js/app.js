@@ -1,0 +1,119 @@
+"use strict";
+
+//////////////////////////////////////
+// Selecting Elements of Each Player
+
+// Player 0
+const player0El = document.querySelector(".player-0");
+const score0El = document.querySelector("#score-0");
+const current0El = document.getElementById("current-0");
+
+// Player 1
+const player1El = document.querySelector(".player-1");
+const score1El = document.querySelector("#score-1");
+const current1El = document.getElementById("current-1");
+
+////////////////////////////
+// Selecting Image
+const diceEl = document.querySelector(".dice");
+
+////////////////////////////
+// Selecting Buttons
+const newBtn = document.querySelector(".btn-new");
+const rollBtn = document.querySelector(".btn-roll");
+const holdBtn = document.querySelector(".btn-hold");
+
+////////////////////////////
+// Required Variable
+let scores, currentScore, activePlayer, playing;
+
+////////////////////////////
+// Initial Condition
+const initial = () => {
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playing = true;
+
+  score0El.textContent = 0;
+  current0El.textContent = 0;
+  score1El.textContent = 0;
+  current1El.textContent = 0;
+
+  diceEl.classList.add("hidden");
+
+  player0El.classList.remove("player-winner");
+  player1El.classList.remove("player-winner");
+
+  player0El.classList.add("player-active");
+  player1El.classList.remove("player-active");
+};
+initial();
+
+////////////////////////////
+// Player Switch Function
+const switchPlayer = () => {
+  document.getElementById(`current-${activePlayer}`).textContent = 0;
+  currentScore = 0;
+
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  player0El.classList.toggle("player-active");
+  player1El.classList.toggle("player-active");
+};
+
+////////////////////////////
+// Roll Dice Function
+rollBtn.addEventListener("click", () => {
+  if (playing) {
+    // 1. Generating a random diceRoll from 1 to 6
+    const dice = Math.trunc(Math.random() * 6) + 1;
+
+    // 2. Display Dice
+    diceEl.classList.remove("hidden");
+    diceEl.src = `/assets/images/dice-${dice}.png`;
+
+    // 3. Check for rolled 1
+    if (dice !== 1) {
+      // Add to current Score
+      currentScore += dice;
+      document.getElementById(`current-${activePlayer}`).textContent =
+        currentScore;
+    } else {
+      // Switch to nexr player
+      switchPlayer();
+    }
+  }
+});
+
+////////////////////////////
+// Hold btn Function
+holdBtn.addEventListener("click", () => {
+  if (playing) {
+    // 1. Add currentScore to active player's score
+    scores[activePlayer] += currentScore;
+
+    document.getElementById(`score-${activePlayer}`).textContent =
+      scores[activePlayer];
+
+    // 2. Check if player score is >= 100
+    if (scores[activePlayer] >= 100) {
+      // Finish Game
+      playing = false;
+      diceEl.classList.add("hidden");
+
+      document
+        .querySelector(`.player-${activePlayer}`)
+        .classList.add("player-winner");
+      document
+        .querySelector(`.player-${activePlayer}`)
+        .classList.add("player-active");
+    } else {
+      // Switch Player
+      switchPlayer();
+    }
+  }
+});
+
+////////////////////////////
+// Reset btn Function
+newBtn.addEventListener("click", initial);
